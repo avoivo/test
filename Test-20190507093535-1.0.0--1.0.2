@@ -1,28 +1,23 @@
             BEGIN
             /***************SET VERSION STARTS HERE****************************/
-            SET sourceMajor = 1;
-            SET sourceMinor = 0;
-            SET sourceRevision = 0;
-
-            SET targetMajor = 1;
-            SET targetMinor = 0;
-            SET targetRevision = 2;
-            SET notes = test;
+            SET @sourceMajor = 1, @sourceMinor = 0, @sourceRevision = 0;
+            SET @targetMajor = 1, @targetMinor = 0, @targetRevision = 2;
+            SET @notes = "test";
 
 
             /***************SET VERSION ENDS HERE****************************/
 
 
             If (
-            	(`FN_ALLOW_DB_UPGRADE`(sourceMajor,sourceMinor,sourceRevision) =1) AND 
-            	((targetMajor>sourceMajor) 
-            	OR (targetMajor=sourceMajor AND targetMinor>sourceMinor)
-            	OR (targetMajor=sourceMajor AND targetMinor=sourceMinor AND targetRevision>sourceRevision))
+            	(`FN_ALLOW_DB_UPGRADE`(@sourceMajor,@sourceMinor,@sourceRevision) =1) AND 
+            	((@targetMajor>@sourceMajor) 
+            	OR (@targetMajor=@sourceMajor AND @targetMinor>@sourceMinor)
+            	OR (@targetMajor=@sourceMajor AND @targetMinor=@sourceMinor AND @targetRevision>@sourceRevision))
             	) THEN
 
             	select 1
 
-            	CALL SP_CREATE_VERSION(targetMajor,targetMinor,targetRevision,notes);
+            	CALL SP_CREATE_VERSION(@targetMajor,@targetMinor,@targetRevision,@notes);
 
             	END IF;
             END
