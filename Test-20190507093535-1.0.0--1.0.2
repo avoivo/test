@@ -1,25 +1,33 @@
 
-            BEGIN
+            DROP FUNCTION IF EXISTS `upgrade_test`;
 
+DELIMITER $$
+CREATE  FUNCTION `upgrade_test`() RETURNS int
+BEGIN
+declare sourceMajor INT;
+declare sourceMinor INT;
+declare sourceRevision INT;
+declare targetMajor INT;
+declare targetMinor INT;
+declare targetRevision INT;
+declare notes varchar(500);
+/***************SET VERSION STARTS HERE****************************/
+SET sourceMajor = 1;
+SET sourceMinor = 0;
+SET sourceRevision = 1;
+SET targetMajor = 1;
+SET targetMinor = 0;
+SET targetRevision = 2;
+SET notes ='Fixed FN_GET_CARD_SCHEME';
+/***************SET VERSION ENDS HERE****************************/
+If (
+    (`FN_ALLOW_DB_UPGRADE`(sourceMajor,sourceMinor,sourceRevision) =1) AND 
+    ((targetMajor>sourceMajor) OR (targetMinor>sourceMinor) OR (targetRevision>sourceRevision) )) THEN
+    		return 0;
+    END IF;
+    
+    return 1;
+END$$
+DELIMITER ;
 
-            /***************SET VERSION STARTS HERE****************************/
-            SET @`sourceMajor` = 1, @`sourceMinor` = 0, @`sourceRevision` = 0;
-            SET @`targetMajor` = 1, @`targetMinor` = 0, @`targetRevision` = 2;
-            SET @`notes` = "test";
-            /***************SET VERSION ENDS HERE****************************/
-
-
-            If (
-            	(`FN_ALLOW_DB_UPGRADE`(@`sourceMajor`,@`sourceMinor`,@`sourceRevision`) =1) AND 
-            	((@`targetMajor`>@`sourceMajor`) 
-            	OR (@`targetMajor`=@`sourceMajor` AND @`targetMinor`>@`sourceMinor`)
-            	OR (@`targetMajor`=@`sourceMajor` AND @`targetMinor`=@`sourceMinor` AND @`targetRevision`>@`sourceRevision`))
-            	) THEN
-
-            	select 1
-
-            	CALL SP_CREATE_VERSION(@`targetMajor`,@`targetMinor`,@`targetRevision`,@`notes`);
-
-            	END IF;
-            END
-            
+DROP FUNCTION IF EXISTS `upgrade_test`;
