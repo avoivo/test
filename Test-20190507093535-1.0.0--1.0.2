@@ -1,7 +1,7 @@
 
             DROP FUNCTION IF EXISTS `upgrade_test`;
 
-DELIMITER $$
+
 CREATE  FUNCTION `upgrade_test`() RETURNS int
 BEGIN
 declare sourceMajor INT;
@@ -27,7 +27,8 @@ If (
     END IF;
     
     return 1;
-END$$
-DELIMITER ;
+END
+
+;
 
 DROP FUNCTION IF EXISTS `upgrade_test`;
