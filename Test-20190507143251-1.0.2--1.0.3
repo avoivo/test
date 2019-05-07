@@ -35,7 +35,12 @@
             	OR (targetMajor=sourceMajor AND targetMinor=sourceMinor AND targetRevision>sourceRevision))
             	) THEN
 
-            	create table test (a int);;
+            	CREATE TABLE TEST 
+                              (
+                                TestID int(11) default NULL,
+                                TestName varchar(100) default NULL
+                              ) 
+                              ENGINE=InnoDB DEFAULT CHARSET=utf8;;
 
             	CALL SP_CREATE_VERSION(targetMajor,targetMinor,targetRevision,notes);
 
