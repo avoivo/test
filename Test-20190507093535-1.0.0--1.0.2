@@ -23,10 +23,14 @@ SET notes ='Fixed FN_GET_CARD_SCHEME';
 If (
     (`FN_ALLOW_DB_UPGRADE`(sourceMajor,sourceMinor,sourceRevision) =1) AND 
     ((targetMajor>sourceMajor) OR (targetMinor>sourceMinor) OR (targetRevision>sourceRevision) )) THEN
-    		return 0;
+    
+            CALL SP_CREATE_VERSION(targetMajor,targetMinor,targetRevision,notes);
+    
+            return 1;
+            
     END IF;
     
-    return 1;
+    return 0;
 END
 
 ;
