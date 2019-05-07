@@ -1,6 +1,3 @@
-
-            DELIMITER $$
-
             BEGIN
             declare sourceMajor INT;
             declare sourceMinor INT;
@@ -38,6 +35,4 @@
             	CALL SP_CREATE_VERSION(targetMajor,targetMinor,targetRevision,notes);
 
             	END IF;
-            END$$
-            DELIMITER ;
-                        
+            END;
