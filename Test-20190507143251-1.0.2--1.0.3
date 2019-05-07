@@ -1,0 +1,48 @@
+
+
+            DROP PROCEDURE IF EXISTS `sp_upgradation_script_Test-20190507143251-1.0.2--1.0`;
+        
+            CREATE PROCEDURE `sp_upgradation_script_Test-20190507143251-1.0.2--1.0`()
+            BEGIN
+            declare sourceMajor INT;
+            declare sourceMinor INT;
+            declare sourceRevision INT;
+
+            declare targetMajor INT;
+            declare targetMinor INT;
+            declare targetRevision INT;
+            declare notes varchar(500);
+
+
+            /***************SET VERSION STARTS HERE****************************/
+            SET sourceMajor = 1;
+            SET sourceMinor = 0;
+            SET sourceRevision = 2;
+
+            SET targetMajor = 1;
+            SET targetMinor = 0;
+            SET targetRevision = 3;
+            SET notes = "create test table";
+
+
+            /***************SET VERSION ENDS HERE****************************/
+
+
+            If (
+            	(`FN_ALLOW_DB_UPGRADE`(sourceMajor,sourceMinor,sourceRevision) =1) AND 
+            	((targetMajor>sourceMajor) 
+            	OR (targetMajor=sourceMajor AND targetMinor>sourceMinor)
+            	OR (targetMajor=sourceMajor AND targetMinor=sourceMinor AND targetRevision>sourceRevision))
+            	) THEN
+
+            	create table test (a int);;
+
+            	CALL SP_CREATE_VERSION(targetMajor,targetMinor,targetRevision,notes);
+
+            	END IF;
+            END;
+
+            call `sp_upgradation_script_Test-20190507143251-1.0.2--1.0`();
+
+            DROP PROCEDURE IF EXISTS `sp_upgradation_script_Test-20190507143251-1.0.2--1.0`;
+                        
