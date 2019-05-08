@@ -1,0 +1,48 @@
+
+
+            DROP PROCEDURE IF EXISTS `sp_upgradation_script_LocalTest-20190508142527-2.0.2--2.0`;
+        
+            CREATE PROCEDURE `sp_upgradation_script_LocalTest-20190508142527-2.0.2--2.0`()
+            BEGIN
+            declare sourceMajor INT;
+            declare sourceMinor INT;
+            declare sourceRevision INT;
+
+            declare targetMajor INT;
+            declare targetMinor INT;
+            declare targetRevision INT;
+            declare notes varchar(500);
+
+
+            /***************SET VERSION STARTS HERE****************************/
+            SET sourceMajor = 2;
+            SET sourceMinor = 0;
+            SET sourceRevision = 2;
+
+            SET targetMajor = 2;
+            SET targetMinor = 0;
+            SET targetRevision = 3;
+            SET notes = "sdf";
+
+
+            /***************SET VERSION ENDS HERE****************************/
+
+
+            If (
+            	(`FN_ALLOW_DB_UPGRADE`(sourceMajor,sourceMinor,sourceRevision) =1) AND 
+            	((targetMajor>sourceMajor) 
+            	OR (targetMajor=sourceMajor AND targetMinor>sourceMinor)
+            	OR (targetMajor=sourceMajor AND targetMinor=sourceMinor AND targetRevision>sourceRevision))
+            	) THEN
+
+            	sdfsd
+
+            	CALL SP_CREATE_VERSION(targetMajor,targetMinor,targetRevision,notes);
+
+            	END IF;
+            END;
+
+            call `sp_upgradation_script_LocalTest-20190508142527-2.0.2--2.0`();
+
+            DROP PROCEDURE IF EXISTS `sp_upgradation_script_LocalTest-20190508142527-2.0.2--2.0`;
+                        
