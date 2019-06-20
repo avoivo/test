@@ -1,0 +1,7 @@
+CREATE TABLE `ProbanxFxRates2` (
+  `Currency` varchar(255) NOT NULL,
+  `Date` datetime NOT NULL,
+  `FxRate` decimal(20,10) DEFAULT NULL,
+  `RRate` decimal(20,10) DEFAULT NULL,
+  PRIMARY KEY (`Currency`,`Date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
